@@ -1,28 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
-
-
-get_ipython().system('pip install opencv-python')
-
-
-# In[ ]:
-
-
 #Extracting and displaying the image
-
-
-# In[89]:
-
 
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-# In[90]:
-
 
 def read_file(filename):
     img = cv2.imread(filename)
@@ -31,27 +11,15 @@ def read_file(filename):
     plt.show()
     return img
 
-
-# In[91]:
-
-
-filename = "169225303_384696200134487_8943204076666535285_n-removebg-preview (1).png"
+filename = "images.png"
 img = read_file(filename)
 
-
-# In[92]:
-
-
 #Create Edge Mask
-
-
-# In[93]:
-
 
 def edge_mask(img , line_size, blur_value):
     """
     input: Gray Scale Image
-    output: Edges og Images
+    output: Edges of Images
     """
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     gray_blur = cv2.medianBlur(gray, blur_value)
@@ -60,25 +28,13 @@ def edge_mask(img , line_size, blur_value):
     
     return edges
 
-
-# In[94]:
-
-
 line_size, blur_value = 7,7
 edges = edge_mask(img , line_size, blur_value)
 
 plt.imshow(edges, cmap = "binary")
 plt.show()
 
-
-# In[95]:
-
-
 # Reduce the Color Palette
-
-
-# In[96]:
-
 
 def color_quant(img, k):
     # Transform the image
@@ -94,18 +50,10 @@ def color_quant(img, k):
     
     return result
 
-
-# In[97]:
-
-
 img = color_quant(img, k = 15)
 
 plt.imshow(img)
 plt.show()
-
-
-# In[98]:
-
 
 # Reduce the noise
 
@@ -114,24 +62,12 @@ blurred = cv2.bilateralFilter(img, d = 10, sigmaColor = 200, sigmaSpace = 200)
 plt.imshow(img)
 plt.show()
 
-
-# In[99]:
-
-
 # Combine Edge Mask with the Quantized Image
-
-
-# In[100]:
-
 
 def cartoon(blurred):
     c = cv2.bitwise_and(blurred, blurred, mask = edges)
     plt.imshow(c)
     plt.show()
-
-
-# In[101]:
-
 
 img = read_file(filename)
 cartoon(blurred)
